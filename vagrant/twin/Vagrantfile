@@ -10,7 +10,6 @@ $ip_master = "192.168.33.110"
 $ip_node = "192.168.33.120"
 
 $provision_common = <<SCRIPT
-yum -y update
 yum -y install git
 git clone https://github.com/vlasenkoyuriy/k8s_vagrant.git
 SCRIPT
@@ -24,7 +23,7 @@ rm -rf ~/.kube
 SCRIPT
 
 $provision_node = <<SCRIPT
-cd k1s
+cd k8s_vagrant
 ./install
 ./join $(ip a | grep "#{$ip_node}" | grep -o \"[^ ]\\+$\") #{$ip_master}:6443
 echo 'Done! Joined.'

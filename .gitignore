@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Vagrant files
+vagrant/twin/.vagrant/
+
 # User-specific files
 *.rsuser
 *.suo
