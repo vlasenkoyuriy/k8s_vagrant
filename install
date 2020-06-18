@@ -32,4 +32,5 @@ cat << EOF > /etc/docker/daemon.json
 }
 EOF
 
+/usr/bin/systemctl restart docker
 /usr/bin/systemctl enable --now kubelet
