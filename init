@@ -64,3 +64,6 @@ systemctl restart kubelet
 mkdir -p $KUBE
 cp -i /etc/kubernetes/admin.conf $KUBE/config
 chown -R $USER:$(id -gn $USER) $KUBE
+
+# Add bash completion to bash shell
+echo "source <(kubectl completion bash)" >> $HOME/.bashrc
