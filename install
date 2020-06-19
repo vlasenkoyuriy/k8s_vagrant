@@ -5,7 +5,10 @@ if [[ $EUID -ne 0 ]]; then echo "root required" 1>&2; exit 1; fi
 setenforce 0
 sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 modprobe br_netfilter
-echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+cat <<EOF >> /etc/sysctl.conf
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sysctl -p
 
 yum install -y yum-utils
 yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
@@ -23,6 +26,7 @@ yum makecache
 yum -y install docker-ce docker-ce-cli containerd.io kubeadm
 
 swapoff -a
+echo "swapoff -a" >> /etc/rc.local
 
 /usr/bin/systemctl enable --now docker
 
