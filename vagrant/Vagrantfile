@@ -24,10 +24,17 @@ KUBECONFIG=/etc/kubernetes/admin.conf kubectl apply -f network/"#{$network}".yml
 rm -rf ~/.kube
 SCRIPT
 
-$provision_node = <<SCRIPT
+$provision_node_1 = <<SCRIPT
 cd k8s_vagrant
 ./install
-./join $(ip a | grep "#{$ip_node}" | grep -o \"[^ ]\\+$\") #{$ip_master}:6443
+./join $(ip a | grep "#{$ip_node_1}" | grep -o \"[^ ]\\+$\") #{$ip_master}:6443
+echo 'Done! Joined.'
+SCRIPT
+
+$provision_node_2 = <<SCRIPT
+cd k8s_vagrant
+./install
+./join $(ip a | grep "#{$ip_node_2}" | grep -o \"[^ ]\\+$\") #{$ip_master}:6443
 echo 'Done! Joined.'
 SCRIPT
 
@@ -63,7 +70,7 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
     end
 
-    node.vm.provision "shell", inline: $provision_node
+    node.vm.provision "shell", inline: $provision_node_1
     node.vm.provision "shell", inline: $provision_message
   end
 
@@ -77,7 +84,7 @@ Vagrant.configure("2") do |config|
       vb.cpus = 2
     end
 
-    node.vm.provision "shell", inline: $provision_node
+    node.vm.provision "shell", inline: $provision_node_2
     node.vm.provision "shell", inline: $provision_message
   end
 
